@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter } from "react-router-dom"; // Importa BrowserRouter
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UserPanel from "./pages/UserPanel";
@@ -19,19 +20,21 @@ function App() {
     }
   }, [loggedUser]);
 
-  if (loggedUser) return <UserPanel user={loggedUser} setUser={setLoggedUser} />;
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      {showLogin ? (
-        <Login switchForm={() => setShowLogin(false)} onLogin={setLoggedUser} />
-      ) : (
-        <Register switchForm={() => setShowLogin(true)} />
-      )}
-    </div>
+    <BrowserRouter> {/* Envuelve toda la app en BrowserRouter */}
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        {loggedUser ? (
+          <UserPanel user={loggedUser} setUser={setLoggedUser} />
+        ) : (
+          showLogin ? (
+            <Login switchForm={() => setShowLogin(false)} onLogin={setLoggedUser} />
+          ) : (
+            <Register switchForm={() => setShowLogin(true)} />
+          )
+        )}
+      </div>
+    </BrowserRouter>
   );
 }
 
 export default App;
-
-
