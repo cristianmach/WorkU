@@ -54,19 +54,19 @@ function UserPanel({ user, setUser }) {
     <div className="flex h-screen overflow-hidden">
       {/* Botón para pantallas pequeñas */}
       <button
-        className="md:hidden fixed top-2 left-2 z-50 p-2 rounded"
+        className="md:hidden fixed top-4 left-2 z-50 p-2 rounded bg-blue-100"
         onClick={togglePanelVisibility} // Este es el único botón que controlará la visibilidad de los paneles
       >
         <AlignJustify size={25} strokeWidth={1} />
       </button>
 
       {/* Columna izquierda */}
-      <aside className={`md:flex flex-col items-center bg-white w-64 p-4 shadow-lg relative ${isSidebarVisible ? 'block' : 'hidden md:block'}`}>
+      <aside className={`md:flex flex-col items-center bg-white w-64 p-4 shadow-lg relative ${isSidebarVisible ? 'block' : 'hidden md:block'} overflow-y-auto`}>
         <div
-          className="relative w-24 h-24 mx-auto cursor-pointer group md:mb-8"
+          className="relative w-24 h-24 mx-auto cursor-pointer group mb-8"
           onClick={() => document.getElementById('fileInput').click()}
         >
-          <img src="/worku-removebg.png" alt="WorkU" className="w-40 mx-auto mb-4" />
+          <img src="/worku-removebg.png" alt="WorkU" className="w-40 mx-auto mb-2" />
           <img
             src={profilePic}
             alt="Foto de perfil"
@@ -83,17 +83,17 @@ function UserPanel({ user, setUser }) {
             onChange={handleImageUpload}
           />
         </div>
-        <div className="md:mt-4 items-center justify-center text-center">
-          <h2 className="mt-2 font-bold text-lg text-center">{user?.nombre || "Usuario"}</h2>
-          <p className="text-sm text-center">Lorem ipsum dolor sit amet consectetur...</p>
+        <div className="mt-2 items-center justify-center text-center">
+          <h2 className="mt-2 font-bold text-lg">{user?.nombre || "Usuario"}</h2>
+          <p className="text-sm">Lorem ipsum dolor sit amet consectetur...</p>
         </div>
 
-        <div className="mt-4 flex flex-col items-center text-center justify-center space-y-2 w-full md:flex-row md:space-x-4 md:space-y-0">
+        <div className="mt-4 flex flex-col items-center justify-center space-y-2 w-full md:flex-row md:space-x-4 md:space-y-0">
           <button className="w-full md:w-auto p-4 text-center rounded-xl bg-gray-100 hover:bg-blue-100 transition-colors">
             <Pocket size={25} strokeWidth={1} />
           </button>
           <button className="w-full md:w-auto p-4 text-center rounded-xl bg-gray-100 hover:bg-blue-100 transition-colors">
-            <UserRoundCheck size={25} strokeWidth={1} />
+            <UserRoundCheck size={25} strokeWidth={1} className="items-center justify-center "/>
           </button>
           <button className="w-full md:w-auto p-4 text-center rounded-xl bg-gray-100 hover:bg-blue-100 transition-colors">
             <ReceiptText size={25} strokeWidth={1} />
@@ -105,7 +105,7 @@ function UserPanel({ user, setUser }) {
           <ul className="space-y-2">
             <li
               className="bg-gray-50 p-2 rounded shadow flex items-center justify-start space-x-2 cursor-pointer hover:bg-blue-100"
-              onClick={() => alert("Abrir chat con User1")} // Función para abrir el chat
+              onClick={() => alert("Abrir chat con User1")}
             >
               <CircleUserRound size={25} strokeWidth={1} />
               <span>User1</span>
@@ -130,6 +130,21 @@ function UserPanel({ user, setUser }) {
         <div className="mt-6 w-full">
           <h3 className="font-semibold mb-2">KPIs</h3>
           <div className="bg-gray-100 p-4 rounded">📊 Aquí irán tus estadísticas</div>
+        </div>
+
+        {/* Botones de logout en dispositivos pequeños */}
+        <div className="md:hidden flex justify-around mt-6 mb-4">
+          <button
+            onClick={handleLogout}
+            className="hover:bg-blue-100 p-2 rounded-md"
+          >
+            <LogOut size={25} strokeWidth={1} />
+          </button>
+          <button
+            className="hover:bg-blue-100 p-2 rounded-md"
+          >
+            <Bolt size={25} strokeWidth={1} />
+          </button>
         </div>
       </aside>
 
@@ -162,10 +177,9 @@ function UserPanel({ user, setUser }) {
           {/* Botones de cerrar sesión y configuración */}
           <div className="flex justify-around mb-4">
             <button
-              onClick={handleLogout} // Cierra la sesión y redirige
               className="hover:bg-blue-100 p-2 rounded-md"
             >
-              <LogOut size={25} strokeWidth={1} />
+              <AlignJustify size={25} strokeWidth={1} />
             </button>
 
             <button
@@ -175,10 +189,12 @@ function UserPanel({ user, setUser }) {
             </button>
 
             <button
+              onClick={handleLogout}
               className="hover:bg-blue-100 p-2 rounded-md"
             >
-              <AlignJustify size={25} strokeWidth={1} />
+              <LogOut size={25} strokeWidth={1} />
             </button>
+
           </div>
 
           <Calendar className="mb-4 rounded-xl" />
