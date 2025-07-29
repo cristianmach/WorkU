@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Calendar } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import axios from "axios";
-import { BookText, Pocket, UserRoundCheck, ReceiptText, CircleUserRound, UserRound, SquarePen, Bell, LogOut, Bolt, AlignJustify } from "lucide-react";
+import { Pocket, UserRoundCheck, ReceiptText, CircleUserRound, AlignJustify, LogOut, Bolt, SquarePen, Bell } from "lucide-react";
 import { useNavigate } from "react-router-dom"; // Importar useNavigate para redirección
 
 const defaultProfilePic = "/default-user.png"; // Imagen por defecto para usuarios sin foto
@@ -10,7 +10,7 @@ const defaultProfilePic = "/default-user.png"; // Imagen por defecto para usuari
 function UserPanel({ user, setUser }) {
   const navigate = useNavigate(); // Hook de redirección
   const [profilePic, setProfilePic] = useState(user?.foto_url || defaultProfilePic);
-  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false); // Inicialmente oculto
   const [isRightPanelVisible, setIsRightPanelVisible] = useState(true);
 
   // Función para manejar la subida de imagen
@@ -55,85 +55,83 @@ function UserPanel({ user, setUser }) {
       {/* Botón para pantallas pequeñas */}
       <button
         className="md:hidden fixed top-2 left-2 z-50 p-2 rounded"
-        onClick={togglePanelVisibility}
+        onClick={togglePanelVisibility} // Este es el único botón que controlará la visibilidad de los paneles
       >
         <AlignJustify size={25} strokeWidth={1} />
       </button>
 
       {/* Columna izquierda */}
-      {isSidebarVisible && (
-        <aside className="hidden md:flex flex-col items-center bg-white w-64 p-4 shadow-lg relative">
-          <div
-            className="relative w-24 h-24 mx-auto cursor-pointer group md:mb-8"
-            onClick={() => document.getElementById('fileInput').click()}
-          >
-            <img src="/worku-removebg.png" alt="WorkU" className="w-40 mx-auto mb-4" />
-            <img
-              src={profilePic}
-              alt="Foto de perfil"
-              className={`w-24 h-24 rounded-full object-cover border ${borderColor} shadow-lg`}
-            />
-            <div className="flex inset-0 bg-black bg-opacity-40 rounded-full hidden group-hover:flex items-center justify-center text-white text-sm">
-              Cambiar
-            </div>
-            <input
-              type="file"
-              id="fileInput"
-              accept="image/*"
-              className="hidden"
-              onChange={handleImageUpload}
-            />
+      <aside className={`md:flex flex-col items-center bg-white w-64 p-4 shadow-lg relative ${isSidebarVisible ? 'block' : 'hidden md:block'}`}>
+        <div
+          className="relative w-24 h-24 mx-auto cursor-pointer group md:mb-8"
+          onClick={() => document.getElementById('fileInput').click()}
+        >
+          <img src="/worku-removebg.png" alt="WorkU" className="w-40 mx-auto mb-4" />
+          <img
+            src={profilePic}
+            alt="Foto de perfil"
+            className={`w-24 h-24 rounded-full object-cover border ${borderColor} shadow-lg`}
+          />
+          <div className="flex inset-0 bg-black bg-opacity-40 rounded-full hidden group-hover:flex items-center justify-center text-white text-sm">
+            Cambiar
           </div>
-          <div className="md:mt-4 items-center justify-center text-center">
-            <h2 className="mt-2 font-bold text-lg text-center">{user?.nombre || "Usuario"}</h2>
-            <p className="text-sm text-center">Lorem ipsum dolor sit amet consectetur...</p>
-          </div>
+          <input
+            type="file"
+            id="fileInput"
+            accept="image/*"
+            className="hidden"
+            onChange={handleImageUpload}
+          />
+        </div>
+        <div className="md:mt-4 items-center justify-center text-center">
+          <h2 className="mt-2 font-bold text-lg text-center">{user?.nombre || "Usuario"}</h2>
+          <p className="text-sm text-center">Lorem ipsum dolor sit amet consectetur...</p>
+        </div>
 
-          <div className="mt-4 flex flex-col items-center justify-center space-y-2 w-full md:flex-row md:space-x-4 md:space-y-0">
-            <button className="w-full md:w-auto p-4 text-center rounded-xl bg-gray-100 hover:bg-blue-100 transition-colors">
-              <Pocket size={25} strokeWidth={1} />
-            </button>
-            <button className="w-full md:w-auto p-4 text-center rounded-xl bg-gray-100 hover:bg-blue-100 transition-colors">
-              <UserRoundCheck size={25} strokeWidth={1} />
-            </button>
-            <button className="w-full md:w-auto p-4 text-center rounded-xl bg-gray-100 hover:bg-blue-100 transition-colors">
-              <ReceiptText size={25} strokeWidth={1} />
-            </button>
-          </div>
+        <div className="mt-4 flex flex-col items-center text-center justify-center space-y-2 w-full md:flex-row md:space-x-4 md:space-y-0">
+          <button className="w-full md:w-auto p-4 text-center rounded-xl bg-gray-100 hover:bg-blue-100 transition-colors">
+            <Pocket size={25} strokeWidth={1} />
+          </button>
+          <button className="w-full md:w-auto p-4 text-center rounded-xl bg-gray-100 hover:bg-blue-100 transition-colors">
+            <UserRoundCheck size={25} strokeWidth={1} />
+          </button>
+          <button className="w-full md:w-auto p-4 text-center rounded-xl bg-gray-100 hover:bg-blue-100 transition-colors">
+            <ReceiptText size={25} strokeWidth={1} />
+          </button>
+        </div>
 
-          <div className="mt-6 w-full">
-            <h3 className="font-semibold mb-2">Chats</h3>
-            <ul className="space-y-2">
-              <li
-                className="bg-gray-50 p-2 rounded shadow flex items-center justify-start space-x-2 cursor-pointer hover:bg-blue-100"
-                onClick={() => alert("Abrir chat con User1")} // Función para abrir el chat
-              >
-                <CircleUserRound size={25} strokeWidth={1} />
-                <span>User1</span>
-              </li>
-              <li
-                className="bg-gray-50 p-2 rounded shadow flex items-center justify-start space-x-2 cursor-pointer hover:bg-blue-100"
-                onClick={() => alert("Abrir chat con User2")}
-              >
-                <CircleUserRound size={25} strokeWidth={1} />
-                <span>User2</span>
-              </li>
-              <li
-                className="bg-gray-50 p-2 rounded shadow flex items-center justify-start space-x-2 cursor-pointer hover:bg-blue-100"
-                onClick={() => alert("Abrir chat con User3")}
-              >
-                <CircleUserRound size={25} strokeWidth={1} />
-                <span>User3</span>
-              </li>
-            </ul>
-          </div>
+        <div className="mt-6 w-full">
+          <h3 className="font-semibold mb-2">Chats</h3>
+          <ul className="space-y-2">
+            <li
+              className="bg-gray-50 p-2 rounded shadow flex items-center justify-start space-x-2 cursor-pointer hover:bg-blue-100"
+              onClick={() => alert("Abrir chat con User1")} // Función para abrir el chat
+            >
+              <CircleUserRound size={25} strokeWidth={1} />
+              <span>User1</span>
+            </li>
+            <li
+              className="bg-gray-50 p-2 rounded shadow flex items-center justify-start space-x-2 cursor-pointer hover:bg-blue-100"
+              onClick={() => alert("Abrir chat con User2")}
+            >
+              <CircleUserRound size={25} strokeWidth={1} />
+              <span>User2</span>
+            </li>
+            <li
+              className="bg-gray-50 p-2 rounded shadow flex items-center justify-start space-x-2 cursor-pointer hover:bg-blue-100"
+              onClick={() => alert("Abrir chat con User3")}
+            >
+              <CircleUserRound size={25} strokeWidth={1} />
+              <span>User3</span>
+            </li>
+          </ul>
+        </div>
 
-          <div className="mt-6 w-full">
-            <h3 className="font-semibold mb-2">KPIs</h3>
-            <div className="bg-gray-100 p-4 rounded">📊 Aquí irán tus estadísticas</div>
-          </div>
-        </aside>
-      )}
+        <div className="mt-6 w-full">
+          <h3 className="font-semibold mb-2">KPIs</h3>
+          <div className="bg-gray-100 p-4 rounded">📊 Aquí irán tus estadísticas</div>
+        </div>
+      </aside>
 
       {/* Columna central */}
       <main className="flex-1 flex flex-col bg-gray-50 p-4 overflow-y-auto">
@@ -148,7 +146,7 @@ function UserPanel({ user, setUser }) {
         <div className="flex justify-between items-center bg-white p-2 rounded shadow mb-4 md:px-4">
           <input type="text" placeholder="Buscar..." className="border p-1 rounded-xl w-full md:mx-2" />
           <div className="flex items-center space-x-4">
-            <button className="text-xl"><UserRound size={25} strokeWidth={1} /></button>
+            <button className="text-xl"><CircleUserRound size={25} strokeWidth={1} /></button>
             <button className="text-xl"><SquarePen size={25} strokeWidth={1} /></button>
             <button className="text-xl"><Bell size={25} strokeWidth={1} /></button>
           </div>
@@ -169,16 +167,14 @@ function UserPanel({ user, setUser }) {
             >
               <LogOut size={25} strokeWidth={1} />
             </button>
-            
+
             <button
-              onClick={() => alert("Ir a configuración")} // Agrega la lógica de ir a la configuración aquí
               className="hover:bg-blue-100 p-2 rounded-md"
             >
               <Bolt size={25} strokeWidth={1} />
             </button>
 
             <button
-              onClick={() => alert("Ir a configuración")} // Agrega la lógica de ir a la configuración aquí
               className="hover:bg-blue-100 p-2 rounded-md"
             >
               <AlignJustify size={25} strokeWidth={1} />
