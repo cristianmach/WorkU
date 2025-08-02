@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   Pocket,
   UserRoundCheck,
@@ -20,6 +20,12 @@ const PanelLeft = ({
   isSidebarVisible,
   togglePanelVisibility,
 }) => {
+  const fileInputRef = useRef(null);
+
+  const triggerFileSelect = () => {
+    if (fileInputRef.current) fileInputRef.current.click();
+  };
+
   return (
     <>
       {/* Botón hamburguesa para pantallas pequeñas */}
@@ -36,29 +42,31 @@ const PanelLeft = ({
           isSidebarVisible ? "block" : "hidden"
         }`}
       >
-        {/* Logo + Foto de perfil */}
+        {/* Logo */}
+        <img
+          src="/worku-removebg.png"
+          alt="WorkU"
+          className="w-40 mx-auto mb-2"
+        />
+
+        {/* Foto de perfil */}
         <div
           className="relative w-24 h-24 mx-auto cursor-pointer group mb-8"
-          onClick={() => document.getElementById("fileInput")?.click()}
+          onClick={triggerFileSelect}
         >
-          <img
-            src="/worku-removebg.png"
-            alt="WorkU"
-            className="w-40 mx-auto mb-2"
-          />
           <img
             src={profilePic || defaultProfilePic}
             alt="Foto de perfil"
             className={`w-24 h-24 rounded-full object-cover border ${borderColor} shadow-lg`}
           />
-          <div className="flex inset-0 bg-black bg-opacity-40 rounded-full hidden group-hover:flex items-center justify-center text-white text-sm">
+          <div className="absolute inset-0 bg-black bg-opacity-40 rounded-full hidden group-hover:flex items-center justify-center text-white text-sm">
             Cambiar
           </div>
           <input
             type="file"
-            id="fileInput"
             accept="image/*"
             className="hidden"
+            ref={fileInputRef}
             onChange={handleImageUpload}
           />
         </div>
