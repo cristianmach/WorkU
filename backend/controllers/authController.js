@@ -19,7 +19,7 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   const { correo, contraseña } = req.body;
   try {
-    const [rows] = await db.execute("SELECT * FROM Usuario WHERE correo = ?", [correo]);
+    const [rows] = await db.execute("SELECT id_usuario AS id, nombre, correo, tipo_usuario, foto_url, contraseña FROM Usuario WHERE correo = ?", [correo]);
     if (rows.length === 0) return res.status(401).json({ error: "Usuario no encontrado" });
 
     const user = rows[0];

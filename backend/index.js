@@ -19,6 +19,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes); // Rutas para manejar la actualización de la foto de perfil
 
+const postsRoutes = require("./routes/postsRoutes");
+app.use("/api/posts", postsRoutes);
+
+
 // Carpeta para servir imágenes subidas
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

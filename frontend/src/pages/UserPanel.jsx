@@ -47,7 +47,7 @@ function UserPanel({ user, setUser }) {
   // Cerrar sesión y redirigir a login
   const handleLogout = () => {
     setUser(null); // Eliminar el usuario de la sesión
-    navigate("/login"); // Redirigir al login
+    navigate("/"); // Redirigir al login
   };
 
   return (
@@ -161,7 +161,12 @@ function UserPanel({ user, setUser }) {
         <div className="flex justify-between items-center bg-white p-2 rounded shadow mb-4 md:px-4">
           <input type="text" placeholder="Buscar..." className="border p-1 rounded-xl w-full md:mx-2" />
           <div className="flex items-center space-x-4">
-            <button className="text-xl"><CircleUserRound size={25} strokeWidth={1} /></button>
+            <button
+              className="text-xl"
+              onClick={() => navigate("/profile")}
+            >
+              <CircleUserRound size={25} strokeWidth={1} />
+            </button>
             <button className="text-xl"><SquarePen size={25} strokeWidth={1} /></button>
             <button className="text-xl"><Bell size={25} strokeWidth={1} /></button>
           </div>
